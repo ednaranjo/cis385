@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CIS385</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            window.onload = function () {
+                var prod_id = [1, 2, 3, 4];
+                var prod_desc = ["Product 1", "Product 2", "Product 3", "Product 4"];
+                var prod_price = [100, 200, 300, 400];
+                var prod_image = ["pict001.jpg", "pict002.jpg", "pict003.jpg", "pict004.jpg"];
+
+                var tblRow = "";
+                for (var i = 0; i < prod_id.length; i++) {
+                    tblRow += "<tr><td>" + prod_id[i] + "</td>" +
+                            "<td>" + prod_desc[i] + "</td>" +
+                            "<td align='right'>$" + prod_price[i] + "</td>" +
+                            "<td><img src='../images/" + prod_image[i] + "' alt='Product'></td>" +
+                            "</tr>";
+                }
+                document.getElementById("productsTbl").innerHTML = tblRow;
+            }
+        </script>
+    </head>
+    <body>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody id="productsTbl"></tbody>
+        </table>
+    </body>
+</html>
