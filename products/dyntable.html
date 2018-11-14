@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to create a table element.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<script>
+function myFunction() {
+    //var table = document.createElement("table");
+	//table.setAttribute("border", "1");
+	var row = document.createElement("tr");
+	var cel1 = document.createElement("td");
+	var cel2 = document.createElement("td");
+	var cel3 = document.createElement("td");
+	
+	var img1 = document.createElement("img");
+	img1.setAttribute("src", "images/dvd1.jpeg");
+	
+	var txt2 = document.createTextNode("Cell 2");
+	txt2 = document.createTextNode("That's all folks!");
+	
+	cel1.appendChild(img1);
+	cel2.appendChild(img1);
+	cel3.appendChild(txt2);
+	
+	row.appendChild(cel1);
+	row.appendChild(cel2);
+	row.appendChild(cel3);
+	//table.appendChild(row);
+	
+	//.innerHTML = row;
+	
+	var tbl = document.getElementById("dynamic_table");
+	tbl.appendChild(row);
+	
+}
+</script>
+
+<table id="dynamic_table" border="1"></table>
+
+</body>
+</html>
