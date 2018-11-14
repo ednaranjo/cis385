@@ -9,6 +9,7 @@
         <h3>CIS385 Web Programming I</h3>
         <ul>
             <li><a href="resume/index.html">Resume</a></li>
+            <li><a href="resume2/index.html">Resume 2</a></li>
             <li><a href="arrays/">Arrays</a></li>
         </ul>
     </body>
