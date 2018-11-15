@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tbale</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id="myTable">TODO write content</div>
+        <script>
+            window.onload = function(){
+                var tbl = "<table border='1'>";
+                for(var i = 1;i < 5; i++){
+                    tbl += "<tr>";
+                    for(var j = 1; j <= 3;j++){
+                        tbl += "<td>"+(i*j)+"</td>";
+                    }
+                    tbl += "</tr>";
+                }
+                tbl += "</table>";
+                document.getElementById("myTable").innerHTML = tbl;
+            }
+        </script>
+    </body>
+</html>
