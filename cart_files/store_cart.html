@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CIS385</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 16px;
+                background: cornsilk;
+                color: #333;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            .button {
+                padding: 10px;
+                border-radius: 5px;
+                display: inline-block;
+                background: steelblue;
+                color: white;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .container {
+                max-width: 960px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .header {
+                overflow: hidden;
+                height: 65px;
+            }
+
+            .header a {
+                color: inherit;
+            }
+
+            .header a:hover {
+                font-weight: bold;
+            }
+
+            .header-logo {
+                float: left;
+            }
+
+            .header-nav {
+                float: right;
+            }
+
+            .header-nav ul li {
+                display: inline-block;
+                margin: 0 20px;
+            }
+
+            .products {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .product {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                max-width: 310px;
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                background: azure;
+            }
+
+
+            .product span {
+                font-weight: bold;
+            }
+
+            .product-image img {
+                display: block;
+                max-width: 228px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .row .product:last-child {
+                margin-right: 0;
+            }
+
+            .product-add-to-cart {
+                overflow: hidden;
+                clear: both;
+                margin-top: 10px;
+            }
+
+            .see-more {
+                float: left;
+                background: indianred;
+            }
+
+            .add-to-cart {
+                float: right;
+            }
+
+            .shopping-cart {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 300px;
+                min-heigh: 300px;
+                margin-right: 20px;
+                margin-top: 10px;
+                padding: 20px;
+                background: wheat;
+            }
+
+            .shopping-cart-head {
+                background: steelblue;
+                color: white;
+                padding: 5px;
+            }
+
+            .shopping-cart,
+            .shopping-cart-head {
+                border-radius: 5px;
+            }
+
+            .empty-cart-btn,
+            .cart-checkout {
+                display: none;
+
+            }
+
+            .empty-cart-btn {
+                margin-bottom: 5px;
+            }
+
+            .cart-checkout {
+                background: limegreen;
+            }
+        </style>
+        <script>
+            
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <header class="header">
+                <h3 class="header-logo">Simple Store</h3>
+
+                <nav class="header-nav">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="products">
+
+
+
+            </div><!-- products -->
+
+            <div class="shopping-cart">
+                <div class="shopping-cart-head">
+                    <span class="product-quantity">0</span> Product(s) in Cart
+                </div>
+                <ul class="shopping-cart-list">
+                </ul>
+                <div class="cart-buttons">
+                    <a href="#0" class="button empty-cart-btn">Empty</a>
+                    <a href="#0" class="button cart-checkout">Checkout - <span class="total-price">$0</span></a>
+                </div>
+            </div>
+        </div><!-- container -->
+
+        <script>
+            var ShoppingCart = (function ($) {
+                "use strict";
+
+                // Cache necesarry DOM Elements
+                var productsEl = document.querySelector(".products"),
+                        cartEl = document.querySelector(".shopping-cart-list"),
+                        productQuantityEl = document.querySelector(".product-quantity"),
+                        emptyCartEl = document.querySelector(".empty-cart-btn"),
+                        cartCheckoutEl = document.querySelector(".cart-checkout"),
+                        totalPriceEl = document.querySelector(".total-price");
+
+                // Products JSON data array
+                var products = [
+                    /*
+                    {
+                        id: 0,
+                        name: "iPhone 6S",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/phone/6s/images/goldbig.jpg",
+                        price: 799
+                    },
+                    {
+                        id: 1,
+                        name: "iPhone 5S",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/phone/5s/images/silverbig.png",
+                        price: 349,
+                    },
+                    {
+                        id: 2,
+                        name: "Macbook",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/mac/macbook/images/pro.jpg",
+                        price: 1499
+                    },
+                    {
+                        id: 3,
+                        name: "Macbook Air",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/mac/mbair/images/air.jpg",
+                        price: 999
+                    },
+                    {
+                        id: 4,
+                        name: "Macbook Air 2013",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/mac/mbair/images/air.jpg",
+                        price: 599
+                    },
+                    {
+                        id: 5,
+                        name: "Macbook Air 2012",
+                        description: "Kogi skateboard tattooed, whatever portland fingerstache coloring book mlkshk leggings flannel dreamcatcher.",
+                        imageUrl: "http://www.icentar.me/mac/mbair/images/air.jpg",
+                        price: 499
+                    }
+                    */
+                   {
+                        id: 0, 
+                        name: "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p01.jpg"
+                    },
+                    {
+                        id: 1, 
+                        name: "San Antonio Spurs Kawhi Leonard #2-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p11.jpg"
+                    },
+                    {
+                        id: 2, 
+                        name: "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey", 
+                        price: 36.99, 
+                        imageUrl: "images/p101.jpg"
+                    },
+                    {
+                        id: 3, 
+                        name: "Kevin Love Cleveland Cavaliers #0 NBA Youth Road Jersey Wine", 
+                        price: 35.99, 
+                        imageUrl: "images/p122.jpg"
+                    },
+                    {
+                        id: 4, 
+                        name: "Tim Duncan San Antonio Spurs Jersey Name and Number T-Shirt", 
+                        price: 35.99, 
+                        imageUrl: "images/p131.jpg"
+                    },
+                    {
+                        id: 5, 
+                        name: "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey", 
+                        price: 35.99, 
+                        imageUrl: "images/p112.jpg"
+                    },
+                    {
+                        id: 6, 
+                        name: "Women's Customized San Antonio Spurs Black Replica Basketball Jersey", 
+                        price: 35.99, 
+                        imageUrl: "images/p41.jpg"
+                    },
+                    {
+                        id: 7, 
+                        name: "Klay Thompson Golden State Warriors Charcoal Chinese New Year Name and Number T-shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p81.jpg"
+                    },
+                    {
+                        id: 8, 
+                        name: "NBA Cleveland Cavaliers Kyrie Irving #2 Men's Replica Jersey", 
+                        price: 34.99, 
+                        imageUrl: "images/p113.jpg"
+                    },
+                    {
+                        id: 9, 
+                        name: "Klay Thompson Golden State Warriors Jersey Name and Number T-Shirt", 
+                        price: 38.00, 
+                        imageUrl: "images/p52.jpg"
+                    },
+                    {
+                        id: 10, 
+                        name: "Stephen Curry Golden State Warriors #30 NBA Youth Climalite Player T-Shirt Blue", 
+                        price: 34.99, 
+                        imageUrl: "images/p61.jpg"
+                    },
+                    {
+                        id: 11, 
+                        name: "Women's Customized San Antonio Spurs Black Replica Basketball Jersey", 
+                        price: 34.99, 
+                        imageUrl: "images/p41.jpg"
+                    },
+                    {
+                        id: 12, 
+                        name: "Men's Cleveland Cavaliers Fanatics Branded Black 2018 Eastern Conference Champions Backcourt Roster T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p02.jpg"
+                    },
+                    {
+                        id: 13, 
+                        name: "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room V-Neck T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p03.jpg"
+                    },
+                    {
+                        id: 14, 
+                        name: "Men's Cleveland Cavaliers LeBron James Fanatics Branded Burgundy 2018 NBA Finals Bound Player Name & Number T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p04.jpg"},
+                    {
+                        id: 15, 
+                        name: "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p05.jpg"
+                    },
+                    {
+                        id: 16, 
+                        name: "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve V-Neck T-Shirt", 
+                        price: 35.99, 
+                        imageUrl: "images/p06.jpg"
+                    },
+                    {
+                        id: 17, 
+                        name: "Men's Cleveland Cavaliers Fanatics Branded Gray 2018 NBA Finals Bound Catch and Shoot Tri-Blend T-Shirt", 
+                        price: 36.99, 
+                        imageUrl: "images/p07.jpg"
+                    },
+                    {
+                        id: 18, 
+                        name: "Women's Cleveland Cavaliers Fanatics Branded Heather Gray 2018 Eastern Conference Champions Catch and Shoot Tri-Blend Tank Top", 
+                        price: 32.99, 
+                        imageUrl: "images/p08.jpg"
+                    },
+                    {
+                        id: 19, 
+                        name: "Men's Cleveland Cavaliers Nike Red 2018 NBA Finals Bound City DNA Cotton Performance T-Shirt", 
+                        price: 35.99, 
+                        imageUrl: "images/p09.jpg"
+                    },
+                    {
+                        id: 20, 
+                        name: "Youth Golden State Warriors Stephen Curry Royal Backer T-Shirt", 
+                        price: 24.99, 
+                        imageUrl: "images/p10.jpg"
+                    },
+                    {
+                        id: 21, 
+                        name: "Men's Boston Celtics Jayson Tatum Fanatics Branded Kelly Green Backer Name & Number T-Shirt", 
+                        price: 34.99, 
+                        imageUrl: "images/p93.jpg"
+                    }
+                ],
+                        productsInCart = [];
+                        
+                        
+                        
+                        
+                        
+
+                // Pretty much self explanatory function. NOTE: Here I have used template strings (ES6 Feature)
+                var generateProductList = function () {
+                    products.forEach(function (item) {
+                        var productEl = document.createElement("div");
+                        productEl.className = "product";
+                        productEl.innerHTML = `<div class="product-image">
+                                <img src="${item.imageUrl}" alt="${item.name}">
+                             </div>
+                             <div class="product-name"><span>Product:</span> ${item.name}</div>
+                             <div class="product-description"><span>Description:</span> ${item.description}</div>
+                             <div class="product-price"><span>Price:</span> ${item.price} $</div>
+                             <div class="product-add-to-cart">
+                               <a href="#0" class="button see-more">More Details</a>
+                               <a href="#0" class="button add-to-cart" data-id=${item.id}>Add to Cart</a>
+                             </div>
+                          </div>
+`;
+
+                        productsEl.appendChild(productEl);
+                    });
+                }
+
+                // Like one before and I have also used ES6 template strings
+                var generateCartList = function () {
+
+                    cartEl.innerHTML = "";
+
+                    productsInCart.forEach(function (item) {
+                        var li = document.createElement("li");
+                        li.innerHTML = `${item.quantity} ${item.product.name} - $${item.product.price * item.quantity}`;
+                        cartEl.appendChild(li);
+                    });
+
+                    productQuantityEl.innerHTML = productsInCart.length;
+
+                    generateCartButtons()
+                }
+
+
+                // Function that generates Empty Cart and Checkout buttons based on condition that checks if productsInCart array is empty
+                var generateCartButtons = function () {
+                    if (productsInCart.length > 0) {
+                        emptyCartEl.style.display = "block";
+                        cartCheckoutEl.style.display = "block"
+                        totalPriceEl.innerHTML = "$ " + calculateTotalPrice();
+                    } else {
+                        emptyCartEl.style.display = "none";
+                        cartCheckoutEl.style.display = "none";
+                    }
+                }
+
+                // Setting up listeners for click event on all products and Empty Cart button as well
+                var setupListeners = function () {
+                    productsEl.addEventListener("click", function (event) {
+                        var el = event.target;
+                        if (el.classList.contains("add-to-cart")) {
+                            var elId = el.dataset.id;
+                            addToCart(elId);
+                        }
+                    });
+
+                    emptyCartEl.addEventListener("click", function (event) {
+                        if (confirm("Are you sure?")) {
+                            productsInCart = [];
+                        }
+                        generateCartList();
+                    });
+                }
+
+                // Adds new items or updates existing one in productsInCart array
+                var addToCart = function (id) {
+                    var obj = products[id];
+                    if (productsInCart.length === 0 || productFound(obj.id) === undefined) {
+                        productsInCart.push({product: obj, quantity: 1});
+                    } else {
+                        productsInCart.forEach(function (item) {
+                            if (item.product.id === obj.id) {
+                                item.quantity++;
+                            }
+                        });
+                    }
+                    generateCartList();
+                }
+
+
+                // This function checks if project is already in productsInCart array
+                var productFound = function (productId) {
+                    return productsInCart.find(function (item) {
+                        return item.product.id === productId;
+                    });
+                }
+
+                var calculateTotalPrice = function () {
+                    return productsInCart.reduce(function (total, item) {
+                        return total + (item.product.price * item.quantity);
+                    }, 0);
+                }
+
+                // This functon starts the whole application
+                var init = function () {
+                    generateProductList();
+                    setupListeners();
+                }
+
+                // Exposes just init function to public, everything else is private
+                return {
+                    init: init
+                };
+
+                // I have included jQuery although I haven't used it
+            })(jQuery);
+
+            ShoppingCart.init();
+        </script>
+    </body>
+</html>
