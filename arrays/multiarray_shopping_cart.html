@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Store</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script>
+            /*
+             * Array of product IDs
+             * @returns {undefined}
+             */
+            var products = [
+                "p01",
+                "p11",
+                "p101",
+                "p122",
+                "p131",
+                "p112",
+                "p41",
+                "p81",
+                "p113",
+                "p52",
+                "p61",
+                "p41",
+                "p02",
+                "p03",
+                "p04",
+                "p05",
+                "p06",
+                "p07",
+                "p08",
+                "p09",
+                "p10",
+                "p93"];
+            /*
+             * Array of product descriptions
+             * @returns {undefined}
+             */
+            var descriptions = [
+                "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room T-Shirt",
+                "San Antonio Spurs Kawhi Leonard #2-Shirt",
+                "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey",
+                "Kevin Love Cleveland Cavaliers #0 NBA Youth Road Jersey Wine",
+                "Tim Duncan San Antonio Spurs Jersey Name and Number T-Shirt",
+                "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey",
+                "Women's Customized San Antonio Spurs Black Replica Basketball Jersey",
+                "Klay Thompson Golden State Warriors Charcoal Chinese New Year Name and Number T-shirt",
+                "NBA Cleveland Cavaliers Kyrie Irving #2 Men's Replica Jersey",
+                "Klay Thompson Golden State Warriors Jersey Name and Number T-Shirt",
+                "Stephen Curry Golden State Warriors #30 NBA Youth Climalite Player T-Shirt Blue",
+                "Women's Customized San Antonio Spurs Black Replica Basketball Jersey",
+                "Men's Cleveland Cavaliers Fanatics Branded Black 2018 Eastern Conference Champions Backcourt Roster T-Shirt",
+                "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room V-Neck T-Shirt",
+                "Men's Cleveland Cavaliers LeBron James Fanatics Branded Burgundy 2018 NBA Finals Bound Player Name & Number T-Shirt",
+                "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve T-Shirt",
+                "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve V-Neck T-Shirt",
+                "Men's Cleveland Cavaliers Fanatics Branded Gray 2018 NBA Finals Bound Catch and Shoot Tri-Blend T-Shirt",
+                "Women's Cleveland Cavaliers Fanatics Branded Heather Gray 2018 Eastern Conference Champions Catch and Shoot Tri-Blend Tank Top",
+                "Men's Cleveland Cavaliers Nike Red 2018 NBA Finals Bound City DNA Cotton Performance T-Shirt",
+                "Youth Golden State Warriors Stephen Curry Royal Backer T-Shirt",
+                "Men's Boston Celtics Jayson Tatum Fanatics Branded Kelly Green Backer Name & Number T-Shirt"];
+            
+            /*
+             * Array of product prices
+             * @returns {undefined}
+             */
+            var prices = [
+                34.99,
+                36.99,
+                35.99,
+                35.99,
+                35.99,
+                35.99,
+                34.99,
+                34.99,
+                38.00,
+                34.99,
+                34.99,
+                34.99,
+                34.99,
+                34.99,
+                34.99,
+                33.99,
+                35.99,
+                36.99,
+                32.99,
+                35.99,
+                24.99,
+                34.99];
+
+            /*
+             * Function: startProducts
+             * @param {type} cname
+             * @param {type} cvalue
+             * @param {type} exdays
+             * @returns {undefined}
+             */
+            function startProducts() {
+                for (var i = 0; i < products.length; i++) {
+                    document.getElementById("products").innerHTML +=
+                            "<tr><td><strong>(" + products[i] +
+                            ")</strong> " + descriptions[i] +
+                            "<br><img src='images/" + products[i] + ".jpg'><br>" +
+                            "</td><td valign='top'>Price: $" + prices[i] + "<br>" +
+                            "<button onclick='addToCart(\"" + products[i] + "\",1)'>Add To Cart</button>"+
+                            "</td></tr>";
+                }
+
+                details();
+            }
+            
+
+            /*
+             * Function: setCookie
+             * @param string cname
+             * @param string cvalue
+             * @param integer exdays
+             * @returns {undefined}
+             */
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+            
+            /*
+             * Function: addToCart
+             * @param string p
+             * @param integer qty
+             * @returns {undefined}
+             */
+            function addToCart(p, qty) {
+                //alert(getCookie(p));
+
+                if (getCookie(p) >= 1) {
+                    setCookie(p, (parseInt(getCookie(p)) + qty), 30);
+                } else {
+                    setCookie(p, qty, 30);
+                }
+
+
+                details();
+            }
+            
+            /*
+             * Function: getCookie
+             * @param string cookie2find
+             * @returns String cookievalue
+             */
+            function getCookie(cookie2find) {
+                var cookievalue = "", str = document.cookie;
+                var cookie_array = str.split(";");
+                for (var i = 0; i < cookie_array.length; i++)
+                {
+                    var B = cookie_array[i].split("=");
+                    var c2f = "";
+                    if (i != 0)
+                        c2f = " " + cookie2find;
+                    else
+                        c2f = cookie2find;
+                    if (B[0] == c2f) {
+                        cookievalue = B[1];
+                        break;
+                    }
+                }
+                return cookievalue;
+            }
+            
+            /*
+             * Function: details
+             * @returns {undefined}
+             */
+            function details() {
+                var cookievalue = "", str = document.cookie;
+                var cookie_array = str.split(";");
+                var x = "<table style='width:50%;background-color:lightyellow;border:1px solid red;' class='table'>";
+                x += "<tr><th colspan='6'>Shopping Cart Items</th></tr>";
+                x += "<tr><th>Product ID</th>";
+                x += "<th>Product Description</th>";
+                x += "<th>Unit Price</th>";
+                x += "<th>Quantity</th>";
+                x += "<th>Total</th>";
+                x += "<th>Delete</th>";
+                x += "</tr>";
+                if (document.cookie.length != 0)
+                    for (var i = 0; i < cookie_array.length; i++)
+                    {
+                        var B = cookie_array[i].split("=");
+                        x += "<tr><td style='width:10;'>" + B[0] + "</td>";
+                        x += "<td>" + descriptions[i] + "</td>" +
+                                "<td>" + prices[i] + "</td>" +
+                                "<td style='width:10;'>" + B[1] + "</td>" +
+                                "<td>" + (prices[i] * B[1]) + "</td>" +
+                                "<td><input type='button' value='Delete' onclick='deleteProduct(\"" + B[0] + "\")'></td>" +
+                                "</tr>";
+                    }
+                x += "</table>";
+                document.getElementById("cart").innerHTML = x;
+            }
+
+            /*
+             * Function: deleteProduct
+             * Deletes a product from shopping cart
+             * @param {type} p
+             * @returns {undefined}
+             */
+            function deleteProduct(p) {
+                setCookie(p, "", -1);
+                details();
+            }
+
+
+        </script>
+    </head>
+    <body onload="startProducts();">
+        <div class="container">
+            <h3>My Sports Shirts Store</h3>
+            <div id="cart"></div>
+            <table style="border: 1px; width: 50%" border="1">
+                <tbody id="products"></tbody>
+            </table>
+        </div>
+    </body>
+</html>
