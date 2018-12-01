@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CIS385</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h3>Find if an element of an array is odd or even</h3>
+        <script>
+            var scores = [3, 34, 12, 53, 23, 82];
+            document.write(scores.join(", ") + "<br />")
+
+            for (var i = 0; i < scores.length; i++) {
+                if (scores[i] % 2 == 1) //odd number?
+                    document.write("<b>odd, </b>")
+                else
+                    document.write("<b>even, </b>")
+            }
+
+        </script>
+    </body>
+</html>
