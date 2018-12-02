@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CIS385</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript">
+            function ReadCookie()
+            {
+                document.cookie = "name=Eduardo";
+                document.cookie = "lastname=Naranjo";
+                document.cookie = "productid=p01";
+                document.cookie = "p01=2";
+                var allcookies = document.cookie;
+                document.write("All Cookies : " + allcookies + "<br>");
+
+                // Get all the cookies pairs in an array
+                cookiearray = allcookies.split(';');
+
+                // Now take key value pair out of this array
+                for (var i = 0; i < cookiearray.length; i++) {
+                    name = cookiearray[i].split('=')[0];
+                    value = cookiearray[i].split('=')[1];
+                    document.write("Key is : " + name + " and Value is : " + value + "<br>");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form name="myform" action="">
+            <p> click the following button and see the result:</p>
+            <input type="button" value="Get Cookie" onclick="ReadCookie()"/>
+        </form>
+    </body>
+</html>
