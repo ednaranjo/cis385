@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CIS385</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div id="cart"></div>
+        <hr>
+        <h3>Our Products</h3>
+        <table style="width: 50%" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="productsTbl"></tbody>
+        </table>
+
+        <script>
+            var inventory = [
+                {
+                    id: "p01",
+                    desc: "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room T-Shirt",
+                    price: 34.99,
+                    image: "p01.jpg"
+                },
+                {
+                    id: "p11",
+                    desc: "San Antonio Spurs Kawhi Leonard #2-Shirt",
+                    price: 34.99,
+                    image: "p11.jpg"
+                },
+                {
+                    id: "p101",
+                    desc: "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey",
+                    price: 36.99,
+                    image: "p101.jpg"
+                },
+                {
+                    id: "p122",
+                    desc: "Kevin Love Cleveland Cavaliers #0 NBA Youth Road Jersey Wine",
+                    price: 35.99,
+                    image: "p122.jpg"
+                },
+                {
+                    id: "p131",
+                    desc: "Tim Duncan San Antonio Spurs Jersey Name and Number T-Shirt",
+                    price: 35.99,
+                    image: "p131.jpg"
+                },
+                {
+                    id: "p112",
+                    desc: "LeBron James Men's Navy Cleveland Cavaliers adidas Swingman Jersey",
+                    price: 35.99,
+                    image: "p112.jpg"
+                },
+                {
+                    id: "p41",
+                    desc: "Women's Customized San Antonio Spurs Black Replica Basketball Jersey",
+                    price: 35.99,
+                    image: "p41.jpg"
+                },
+                {
+                    id: "p81",
+                    desc: "Klay Thompson Golden State Warriors Charcoal Chinese New Year Name and Number T-shirt",
+                    price: 34.99,
+                    image: "p81.jpg"
+                },
+                {
+                    id: "p113",
+                    desc: "NBA Cleveland Cavaliers Kyrie Irving #2 Men's Replica Jersey",
+                    price: 34.99,
+                    image: "p113.jpg"
+                },
+                {
+                    id: "p52",
+                    desc: "Klay Thompson Golden State Warriors Jersey Name and Number T-Shirt",
+                    price: 38.00,
+                    image: "p52.jpg"
+                },
+                {
+                    id: "p61",
+                    desc: "Stephen Curry Golden State Warriors #30 NBA Youth Climalite Player T-Shirt Blue",
+                    price: 34.99,
+                    image: "p61.jpg"
+                },
+                {
+                    id: "p41",
+                    desc: "Women's Customized San Antonio Spurs Black Replica Basketball Jersey",
+                    price: 34.99,
+                    image: "p41.jpg"
+                },
+                {
+                    id: "p02",
+                    desc: "Men's Cleveland Cavaliers Fanatics Branded Black 2018 Eastern Conference Champions Backcourt Roster T-Shirt",
+                    price: 34.99,
+                    image: "p02.jpg"
+                },
+                {
+                    id: "p03",
+                    desc: "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Locker Room V-Neck T-Shirt",
+                    price: 34.99,
+                    image: "p03.jpg"
+                },
+                {
+                    id: "p04",
+                    desc: "Men's Cleveland Cavaliers LeBron James Fanatics Branded Burgundy 2018 NBA Finals Bound Player Name & Number T-Shirt",
+                    price: 34.99,
+                    image: "p04.jpg"},
+                {
+                    id: "p05",
+                    desc: "Men's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve T-Shirt",
+                    price: 34.99,
+                    image: "p05.jpg"
+                },
+                {
+                    id: "p06",
+                    desc: "Women's Cleveland Cavaliers Fanatics Branded Heather Charcoal 2018 Eastern Conference Champions Keyhole Slogan Long Sleeve V-Neck T-Shirt",
+                    price: 35.99,
+                    image: "p06.jpg"
+                },
+                {
+                    id: "p07",
+                    desc: "Men's Cleveland Cavaliers Fanatics Branded Gray 2018 NBA Finals Bound Catch and Shoot Tri-Blend T-Shirt",
+                    price: 36.99,
+                    image: "p07.jpg"
+                },
+                {
+                    id: "p08",
+                    desc: "Women's Cleveland Cavaliers Fanatics Branded Heather Gray 2018 Eastern Conference Champions Catch and Shoot Tri-Blend Tank Top",
+                    price: 32.99,
+                    image: "p08.jpg"
+                },
+                {
+                    id: "p09",
+                    desc: "Men's Cleveland Cavaliers Nike Red 2018 NBA Finals Bound City DNA Cotton Performance T-Shirt",
+                    price: 35.99,
+                    image: "p09.jpg"
+                },
+                {
+                    id: "p10",
+                    desc: "Youth Golden State Warriors Stephen Curry Royal Backer T-Shirt",
+                    price: 24.99,
+                    image: "p10.jpg"
+                },
+                {
+                    id: "p93",
+                    desc: "Men's Boston Celtics Jayson Tatum Fanatics Branded Kelly Green Backer Name & Number T-Shirt",
+                    price: 34.99,
+                    image: "p93.jpg"
+                },
+            ];
+
+
+            window.onload = function () {
+
+                for (var i = 0; i < inventory.length; i++) {
+                    var this_product = inventory[i];
+                    document.getElementById("productsTbl").innerHTML +=
+                            "<tr>" +
+                            "<td valign='top'>" + this_product.id + "</td>" +
+                            "<td valign='top'><img src='images/" + this_product.image + "' alt='Product'><br><h3>" + this_product.desc + "</h3></td>" +
+                            "<td valign='top' align='right'>$" + this_product.price + "<br>\n\
+        <button onclick='addToCart(\"" + this_product.id + "\",1)'>Add To Cart</button></td>" +
+                            "</tr>";
+                }
+                doShowAll();
+            };
+
+            // Check if browser supports localStorage
+            function CheckBrowser() {
+                if ("localStorage" in window && window["localStorage"] !== null) {
+                    // we can use localStorage object to store data
+                    return true;
+                } else {
+                    //  we cannot use localStorage object to store data
+                    return false;
+                }
+            }
+
+            // Add individual product to shopping cart
+            function addToCart(p, qty) {
+
+                localStorage.getItem("lastname");
+
+                if (localStorage.getItem(p)) {
+                    localStorage.setItem(p, parseInt(localStorage.getItem(p)) + 1);
+                } else {
+                    localStorage.setItem(p, qty);
+                }
+
+                doShowAll();
+            }
+
+            // Show the Shopping Cart from localStorage
+            function doShowAll() {
+                if (CheckBrowser()) {
+                    var total_items = 0;
+                    var total_cost = 0;
+                    var x = "<table style='width:50%;' class='table'>";
+                    x += "<tr><th colspan='2'><h3>Your Shopping Cart</h3></th></tr>";
+                    x += "<tr><th>Product ID</th>";
+                    x += "<th>Product Description</th>";
+                    x += "<th>Unit Price</th>";
+                    x += "<th>Quantity</th>";
+                    x += "<th>Total</th>";
+                    x += "<th>Delete</th>";
+                    x += "</tr>";
+
+                    for (var i = 0; i < localStorage.length; i++) {
+
+                        var key = localStorage.key(i);
+                        var value = inventory[inventory.findIndex(x => x.id === key)].desc;
+                        var unit_price = inventory[inventory.findIndex(x => x.id === key)].price;
+                        x += "<tr>";
+                        x += "<td>" + key + "</td>";
+                        x += "<td>" + value + "</td>";
+                        x += "<td align='right'>" + unit_price + "</td>";
+                        x += "<td align='right'>" + localStorage.getItem(localStorage.key(i)) + "</td>";
+                        x += "<td align='right'>" + (localStorage.getItem(localStorage.key(i)) * unit_price).toFixed(2) + "</td>";
+                        x += "<td><input type=\"button\" onclick=\"deleteProduct('" + key.toString() + "')\" value='Delete'></td>";
+                        x += "</tr>";
+                        
+                        total_items += parseInt(localStorage.getItem(localStorage.key(i)));
+                        total_cost += (parseInt(localStorage.getItem(localStorage.key(i))) * parseFloat(unit_price));
+                    }
+                    
+                    // Create a table row to show totals
+                    x += "<tr>";
+                    x += "<td colspan='3' align='right'>Totals:</td>";
+                    x += "<td align='right'>"+total_items+"</td>";
+                    x += "<td align='right'>"+total_cost.toFixed(2)+"</td>";
+                    x += "</tr>";
+                    
+                    // Append the shopping cart to the page
+                    document.getElementById('cart').innerHTML = x;
+
+                } else {
+                    alert("Sorry, your browser does not support local storage.");
+                }
+
+            } // end function doShowAll
+
+
+            //Get the item value (qty)
+            function getItem(key) {
+                var value = localStorage.getItem(key);
+                return value;
+            }
+
+            // function to delete item from shopping cart
+            function deleteProduct(p) {
+                localStorage.removeItem(p);
+                doShowAll();
+            }
+
+        </script>
+    </body>
+</html>
